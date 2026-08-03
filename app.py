@@ -14,7 +14,7 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/predict-page")
+@app.route("/predict.html")
 def predict_page():
     return render_template("predict.html")
 
