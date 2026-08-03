@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from flask import Flask, render_template, request, jsonify
 import torch
@@ -32,14 +33,15 @@ def predict():
         "confidence": float(confidence),
         "probabilities": probs.tolist()
     })
-app.get("/health", (_req, res) => {
-    res.status(200).json({
-        success: true,
-        status: "ok",
-        timestamp: new Date().toISOString()
-    });
-});
 
+@app.route("/health")
+def health():
+    return {
+        "success": True,
+        "status": "ok",
+        "timestamp": datetime.utcnow().isoformat()
+    }
+    
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
