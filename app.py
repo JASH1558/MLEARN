@@ -32,7 +32,13 @@ def predict():
         "confidence": float(confidence),
         "probabilities": probs.tolist()
     })
-
+app.get("/health", (_req, res) => {
+    res.status(200).json({
+        success: true,
+        status: "ok",
+        timestamp: new Date().toISOString()
+    });
+});
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
