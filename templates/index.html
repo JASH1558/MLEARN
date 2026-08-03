@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>NeuroDraw — Draw a digit, watch it think</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="sidebar-scrim"></div>
+
+<div class="shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" stroke="white" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="3.4" fill="white"/></svg>
+      </div>
+      <div class="brand-text">
+        <b>NeuroDraw</b>
+        <span>Digits, live.</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a href="index.html" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        Home
+      </a>
+      <a href="predict.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        Draw &amp; Predict
+      </a>
+    </nav>
+
+    <div class="sidebar-foot">
+      Model runs <b>entirely in your browser</b> — nothing you draw ever leaves this device.
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="topbar">
+      <button class="menu-btn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <span class="topbar-title">NeuroDraw</span>
+      <a href="predict.html" class="btn btn-ghost" style="margin-left:auto;">
+        Try it
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+      <canvas id="net-canvas"></canvas>
+      <div class="hero-content">
+        <div class="eyebrow"><span class="dot"></span> Convolutional network · trained on MNIST</div>
+        <h1>Draw a digit.<span class="grad">Watch it think.</span></h1>
+        <p class="lead">
+          NeuroDraw runs a small convolutional neural network right here in your browser.
+          Sketch any digit from 0–9 on the canvas and ten liquid gauges fill in real time
+          as the network updates its confidence, stroke by stroke.
+        </p>
+        <div class="hero-cta">
+          <a href="predict.html" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+            Begin drawing
+          </a>
+          <a href="#how" class="btn btn-ghost">How it works</a>
+        </div>
+        <div class="hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20c4-2 7-6 7-10a7 7 0 1 0-14 0c0 4 3 8 7 10Z"/><circle cx="12" cy="10" r="2.3"/></svg>
+          No install, no server round-trip — inference happens on-device, in real time.
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <div class="stat-strip">
+      <div class="stat"><div class="num">28×28</div><div class="lbl">input resolution</div></div>
+      <div class="stat"><div class="num">3 conv</div><div class="lbl">+ batch norm layers</div></div>
+      <div class="stat"><div class="num">10</div><div class="lbl">output classes, 0–9</div></div>
+      <div class="stat"><div class="num">On‑device</div><div class="lbl">runs via ONNX Runtime Web</div></div>
+    </div>
+
+    <!-- Feature cards -->
+    <div class="section-label" id="how">How it works</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon icon-orange">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </div>
+        <h3>1. You draw</h3>
+        <p>Sketch a digit on a canvas with your mouse or finger. It's automatically downsampled to the 28×28 grayscale format the model was trained on.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon icon-pink">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        </div>
+        <h3>2. The network runs</h3>
+        <p>Three convolutional layers with batch normalization extract shapes and curves, then three fully-connected layers turn them into a guess.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon icon-purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4Z"/></svg>
+        </div>
+        <h3>3. Confidence fills up</h3>
+        <p>Softmax turns the network's output into a probability for every digit. Ten liquid gauges fill live — the fullest one is the network's best guess.</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>NeuroDraw · a tiny CNN, entirely client-side</span>
+      <span>Inference by ONNX Runtime Web</span>
+    </div>
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

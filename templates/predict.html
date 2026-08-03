@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Draw &amp; Predict — NeuroDraw</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="sidebar-scrim"></div>
+
+<div class="shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" stroke="white" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="3.4" fill="white"/></svg>
+      </div>
+      <div class="brand-text">
+        <b>NeuroDraw</b>
+        <span>Digits, live.</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        Home
+      </a>
+      <a href="predict.html" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        Draw &amp; Predict
+      </a>
+    </nav>
+
+    <div class="sidebar-foot">
+      Your convolutional network, <b>conv → conv → conv → fc → fc → fc</b>, loaded straight from your trained weights.
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="topbar">
+      <button class="menu-btn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <span class="topbar-title">Draw &amp; Predict</span>
+    </div>
+
+    <div class="section-label" style="margin-top:0;">Draw &amp; Predict</div>
+    <h1 style="font-family:var(--font-display); font-size: clamp(24px,3vw,32px); margin: 0 0 26px; font-weight:700;">
+      Sketch a digit — the model reads it as you draw
+    </h1>
+
+    <div class="predict-grid">
+      <!-- Canvas panel -->
+      <div class="panel">
+        <h2>Canvas</h2>
+        <p class="sub">28 × 28 pixels, upscaled for drawing. Use your mouse or your finger.</p>
+
+        <div class="canvas-wrap" id="canvas-wrap">
+          <canvas id="draw-canvas" width="280" height="280"></canvas>
+          <div class="canvas-grid-overlay"></div>
+          <div class="loading-overlay" id="loading-overlay">
+            <div class="spinner"></div>
+            <span>Loading model…</span>
+          </div>
+        </div>
+
+        <div class="canvas-controls">
+          <div class="status-pill">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="status-text">Loading…</span>
+          </div>
+          <button class="btn btn-ghost" id="clear-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6"/></svg>
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Predictions panel -->
+      <div class="panel">
+        <h2>Live confidence</h2>
+        <p class="sub">Softmax output of the network — updates as you draw.</p>
+
+        <div class="prediction-hero">
+          <div class="big-digit" id="big-digit">–</div>
+          <div class="meta">
+            <span class="lbl">Best guess</span>
+            <span class="conf" id="conf-text">Draw a digit to see a prediction</span>
+          </div>
+        </div>
+
+        <div class="digit-list" id="digit-list">
+          <!-- rows injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>NeuroDraw · a tiny CNN, entirely client-side</span>
+      <span>Inference by ONNX Runtime Web</span>
+    </div>
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/predict.js"></script>
+</body>
+</html>
