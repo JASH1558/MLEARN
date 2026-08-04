@@ -11,6 +11,8 @@ const digitList = document.getElementById("digit-list");
 const statusDot = document.getElementById("status-dot");
 const statusText = document.getElementById("status-text");
 
+const loadingOverlay = document.getElementById("loading-overlay");
+
 let drawing = false;
 
 canvas.width = 280;
@@ -275,3 +277,9 @@ function updatePrediction(data){
     rows[data.prediction].classList.add("top");
 
 }
+
+window.addEventListener("load", () => {
+    loadingOverlay.style.display = "none";
+    statusDot.className = "status-dot ready";
+    statusText.innerText = "Ready";
+});
