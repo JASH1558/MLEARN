@@ -26,7 +26,7 @@ def predict():
 
     image = np.array(data["image"], dtype=np.float32)
 
-    digit, confidence, probs = predict_digit(image)
+    confidence, probs = predict_digit(image)
 
     return jsonify({
         "prediction": int(digit),
